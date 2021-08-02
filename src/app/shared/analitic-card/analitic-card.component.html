@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-body d-flex justify-content-between">
+    <h1 *ngIf="!isLoading" class="p-0 m-0">{{value | currency: "":"":"":"ru"}}</h1>
+    <mat-progress-spinner diameter="32" color="prymary" mode="indeterminate" value="25" *ngIf="isLoading"></mat-progress-spinner>
+    <i
+      class="bi"
+      [ngClass]="[arrowClass, arrowIcon]"
+      style="font-size: 1.5rem"
+    ></i>
+  </div>
+  <div class="card-footer text-muted">
+    <small>{{ footerTitle }}</small>
+  </div>
+</div>

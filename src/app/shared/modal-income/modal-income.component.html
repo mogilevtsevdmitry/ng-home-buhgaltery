@@ -1,0 +1,160 @@
+<div class="form mx-auto">
+  <div class="row">
+    <div class="col-6">
+      <h2 mat-dialog-title>{{ title }}</h2>
+    </div>
+    <div class="col-6 text-end">
+      <button
+        type="button"
+        class="btn btn-sm btn-light text-muted"
+        (click)="onAddCategory()"
+      >
+        <small>Новая категория</small>
+      </button>
+    </div>
+  </div>
+
+  <mat-dialog-content>
+    <form
+      [formGroup]="form"
+      *ngIf="categories$ | async as categories"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field class="w-100">
+        <mat-label>Наименование</mat-label>
+        <input type="text"
+               placeholder="Наименование..."
+               aria-label="Наименование"
+               matInput
+               formControlName="name"
+               [matAutocomplete]="auto"
+               (ngModelChange)="onInputName($event)"
+        >
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let name of names | async" [value]="name">
+            {{name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-label>Первая категория</mat-label>
+        <mat-select formControlName="category1" required>
+          <mat-option value="null" disabled>Не выбрано</mat-option>
+          <mat-option *ngFor="let val of categories | unique" [value]="val">
+            {{val}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-label>Вторая категория</mat-label>
+        <mat-select formControlName="category2" [disabled]="!category1?.value">
+          <mat-option value="null" disabled>Не выбрано</mat-option>
+          <mat-option
+            *ngFor="let val of categories | unique: category1?.value"
+            [value]="val"
+          >{{ val }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-label>Третья категория</mat-label>
+        <mat-select formControlName="category3" [disabled]="!category2?.value">
+          <mat-option value="null" disabled>Не выбрано</mat-option>
+          <mat-option
+            *ngFor="
+let val of categories | unique: category1?.value:category2?.value
+"
+            [value]="val"
+          >{{ val }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-label>Четвертая категория</mat-label>
+        <mat-select formControlName="category4" [disabled]="!category3?.value">
+          <mat-option value="null" disabled>Не выбрано</mat-option>
+          <mat-option
+            *ngFor="
+let val of categories
+| unique: category1?.value:category2?.value:category3?.value
+"
+            [value]="val"
+          >{{ val }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <mat-label>Дата</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date"/>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <div class="row">
+        <div class="col-12 text-end">
+          <button
+            type="button"
+            class="btn btn-sm btn-light text-muted"
+            (click)="showOrHideDescription = !showOrHideDescription"
+          >
+            <small
+            >{{
+              showOrHideDescription ? "Скрыть" : "Добавить"
+              }}
+              примечание</small
+            >
+          </button>
+        </div>
+        <mat-form-field class="w-100" *ngIf="showOrHideDescription">
+          <mat-label>Примечание</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="w-100">
+        <mat-label>Сумма, руб.</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="price"
+          value="0.00"
+          min="0"
+          step="0.01"
+        />
+      </mat-form-field>
+
+      <div class="btn-group w-100">
+        <button
+          type="button"
+          *ngIf="isDel"
+          class="btn btn-sm btn-outline-danger me-5"
+          (click)="onDelete()"
+        >
+          <i class="bi bi-trash"></i>
+        </button>
+        <button
+          type="submit"
+          class="btn btn-sm btn-outline-success mx-1"
+          style="width: 180px"
+          (click)="onSubmit()"
+          [disabled]="form.invalid"
+        >
+          Сохранить
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger mx-1"
+          style="width: 180px"
+          (click)="onCancel()"
+        >
+          Отмена
+        </button>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

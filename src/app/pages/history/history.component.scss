@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
+.mat-row:hover {
+  cursor: pointer;
+  background-color: rgb(238, 238, 238);
+}
+
+.row-is-clicked {
+  font-weight: bold;
+}

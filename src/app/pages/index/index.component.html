@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row justify-content-between mt-2">
+    <div class="col-auto">
+      <h1>Динамика движения денежных средств</h1>
+    </div>
+    <div class="col-auto text-end">
+      <div class="btn-group">
+        <button
+          style="width: 85px"
+          type="button"
+          class="mx-1 btn btn-sm btn-outline-success"
+          (click)="onIncome()"
+        >
+          <i class="bi bi-plus-circle-dotted"></i>
+          Доход
+        </button>
+        <button
+          style="width: 85px"
+          type="button"
+          class="mx-1 btn btn-sm btn-outline-danger"
+          (click)="onConsumption()"
+        >
+          <i class="bi bi-dash-circle-dotted"></i>
+          Расход
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-3 col-sm-6 mb-2">
+      <app-analitic-card
+        [value]="incomeValue"
+        [isLoading]="isLoading"
+        footerTitle="Доход"
+      ></app-analitic-card>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
+      <app-analitic-card
+        [value]="consumptionValue"
+        [isLoading]="isLoading"
+        footerTitle="Расход"
+        arrowClass="text-danger"
+        arrowIcon="bi-arrow-down"
+      ></app-analitic-card>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
+      <app-analitic-card
+        [value]="consumptionValue + incomeValue"
+        [isLoading]="isLoading"
+        [footerTitle]="'Итог за ' + monthName"
+        arrowClass="text-warning"
+        arrowIcon="bi-cash"
+      ></app-analitic-card>
+    </div>
+    <!--    <div class="col-md-3 col-sm-6 mb-2">-->
+    <!--      <app-analitic-card-->
+    <!--        footerTitle="Наибольший расход"-->
+    <!--        arrowClass="text-primary"-->
+    <!--        arrowIcon="bi-pie-chart"-->
+    <!--      ></app-analitic-card>-->
+    <!--    </div>-->
+  </div>
+</div>

@@ -160,7 +160,7 @@ export class ModalConsumptionComponent implements OnInit {
       },
       price: -values.price,
       createdBy: users[0],
-      date: new Date(),
+      date: new Date(values.date),
       qntyOrWeight: values.qntyOrWeight,
       qntyOrWeightNum: values.qntyOrWeightNum,
     }

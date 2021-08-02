@@ -61,7 +61,7 @@ export class HistoryComponent implements OnInit {
             return new Date(Object(b.date).seconds * 1000) - new Date(Object(a.date).seconds * 1000)
           })
         this.dataSource = new MatTableDataSource<IHistory>(this.historyData)
-        // this.dataSource.sort = this.sort
+        this.dataSource.sort = this.sort
         this.isLoading = false
       }
     })

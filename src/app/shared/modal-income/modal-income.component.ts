@@ -161,7 +161,7 @@ export class ModalIncomeComponent implements OnInit {
       },
       price: values.price,
       createdBy: users[0],
-      date: new Date(),
+      date: new Date(values.date),
     }
     this.dialogRef.close(newHistoryRow)
   }

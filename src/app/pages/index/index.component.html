@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row justify-content-between mt-2">
+
     <div class="col-auto">
       <h1>Динамика движения денежных средств</h1>
     </div>
@@ -25,7 +26,28 @@
         </button>
       </div>
     </div>
+    <div class="col-auto text-end">
+      <button
+        type="button"
+        class="mx-1 btn btn-sm btn-outline-secondary"
+        (click)="isShowFilter = !isShowFilter"
+        [title]="isShowFilter ? 'Скрыть фильтр' : 'Показать фильтр'"
+      >
+        <i class="bi bi-funnel"></i>
+      </button>
+    </div>
   </div>
+  <ng-container *ngIf="isShowFilter">
+    <mat-form-field>
+      <mat-label>Выберите период</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate [formControl]="matStartDate" placeholder="Дата с">
+        <input matEndDate [formControl]="matEndDate" (dateChange)="onSelectDate()" placeholder="Дата по">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </ng-container>
   <div class="row mt-2">
     <div class="col-md-3 col-sm-6 mb-2">
       <app-analitic-card

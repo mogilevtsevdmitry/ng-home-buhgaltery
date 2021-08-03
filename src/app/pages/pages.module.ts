@@ -11,6 +11,8 @@ import {IndexComponent} from './index/index.component'
 import {SharedModule} from '../shared/shared.module'
 import {HistoryComponent} from './history/history.component'
 import {CategoriesComponent} from './categories/categories.component'
+import {MatDatepickerModule} from '@angular/material/datepicker'
+import {ReactiveFormsModule} from '@angular/forms'
 
 @NgModule({
   declarations: [IndexComponent, HistoryComponent, CategoriesComponent],
@@ -23,6 +25,8 @@ import {CategoriesComponent} from './categories/categories.component'
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
   ],
 })
 export class PagesModule {

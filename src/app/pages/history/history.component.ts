@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core'
-import {registerLocaleData} from '@angular/common'
 import {MatTableDataSource} from '@angular/material/table'
 import {MatDialog} from '@angular/material/dialog'
 import {MatSort} from '@angular/material/sort'
+import {registerLocaleData} from '@angular/common'
 import ru from '@angular/common/locales/ru'
 
 import {ModalConsumptionComponent} from '../../shared/modal-consumption/modal-consumption.component'

@@ -12,7 +12,9 @@ import {SharedModule} from '../shared/shared.module'
 import {HistoryComponent} from './history/history.component'
 import {CategoriesComponent} from './categories/categories.component'
 import {MatDatepickerModule} from '@angular/material/datepicker'
-import {ReactiveFormsModule} from '@angular/forms'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {MatButtonModule} from '@angular/material/button'
+import {MatIconModule} from '@angular/material/icon'
 
 @NgModule({
   declarations: [IndexComponent, HistoryComponent, CategoriesComponent],
@@ -27,6 +29,9 @@ import {ReactiveFormsModule} from '@angular/forms'
     MatProgressSpinnerModule,
     MatDatepickerModule,
     ReactiveFormsModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
   ],
 })
 export class PagesModule {

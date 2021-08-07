@@ -1,14 +1,18 @@
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter'
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core'
 import {Component, OnInit, ViewChild} from '@angular/core'
 import {MatTableDataSource} from '@angular/material/table'
+import {registerLocaleData} from '@angular/common'
 import {MatDialog} from '@angular/material/dialog'
 import {MatSort} from '@angular/material/sort'
-import {registerLocaleData} from '@angular/common'
 import ru from '@angular/common/locales/ru'
+import * as moment from 'moment'
 
 import {ModalConsumptionComponent} from '../../shared/modal-consumption/modal-consumption.component'
-import {ModalIncomeComponent} from '../../shared/modal-income/modal-income.component'
+import {ModalIncomeComponent, MY_FORMATS} from '../../shared/modal-income/modal-income.component'
 import {BuhgalteryService} from '../../shared/buhgaltery.service'
 import {IHistory, Priznak} from '../../shared/interfaces'
+import {FormControl} from '@angular/forms'
 
 registerLocaleData(ru, 'ru')
 
@@ -16,8 +20,20 @@ registerLocaleData(ru, 'ru')
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
 })
 export class HistoryComponent implements OnInit {
+  isShowFilter: boolean = false
+  matStartDate = new FormControl(moment().startOf('month'))
+  matEndDate = new FormControl(moment().endOf('month'))
   historyData: IHistory[] = []
   displayedColumns: string[] = [
     'name',
@@ -37,15 +53,23 @@ export class HistoryComponent implements OnInit {
   dataSource: MatTableDataSource<IHistory>
 
   @ViewChild(MatSort) sort: MatSort = new MatSort()
+  matInputValue: string = ''
+  myInput: string = ''
 
-  constructor(private service: BuhgalteryService, private dialog: MatDialog) {
+  constructor(
+    private service: BuhgalteryService,
+    private dialog: MatDialog,
+    private _adapter: DateAdapter<any>,
+  ) {
   }
 
   ngOnInit(): void {
+    this._adapter.setLocale('ru')
+    this.isLoading = true
     this.updateTable()
   }
 
-  private updateTable() {
+  private updateTable(term?: string) {
     this.isLoading = true
     this.service.getAllHistory().subscribe((data) => {
       if (data) {
@@ -60,6 +84,11 @@ export class HistoryComponent implements OnInit {
             // @ts-ignore
             return new Date(Object(b.date).seconds * 1000) - new Date(Object(a.date).seconds * 1000)
           })
+        // @ts-ignore
+        if (term?.trim().length > 0) {
+          // @ts-ignore
+          this.historyData = this.historyData.filter(el => el.name.toLowerCase().includes(term?.trim().toLowerCase()))
+        }
         this.dataSource = new MatTableDataSource<IHistory>(this.historyData)
         this.dataSource.sort = this.sort
         this.isLoading = false
@@ -93,11 +122,46 @@ export class HistoryComponent implements OnInit {
     })
   }
 
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   console.log(filterValue);
+  onSelectDate(): void {
+    if (this.matStartDate.value && this.matEndDate.value) {
+      this._updateData(
+        this.matStartDate.value,
+        this.matEndDate.value,
+      )
+    }
+  }
 
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-  //   this.updateTable();
-  // }
+  private _updateData(startDate?: Date, endDate?: Date): void {
+    this.service.getAllHistory().subscribe((data) => {
+      if (data) {
+        this.historyData = data.map((res: { payload: { doc: { id: string; data: () => IHistory[]; }; }; }) => {
+          return <IHistory[]>{
+            id: res.payload.doc.id,
+            ...res.payload.doc.data(),
+          }
+        })
+        if (startDate && endDate) {
+          this.historyData = this.historyData?.filter(h => moment(Object(h.date).seconds * 1000)
+            .isBetween(
+              moment(startDate),
+              moment(endDate)
+                .hour(23)
+                .minute(59)
+                .second(59)
+                .millisecond(999),
+            ) ? h : null)
+          this.dataSource = new MatTableDataSource<IHistory>(this.historyData)
+        }
+      }
+    })
+  }
+
+  onChangeInput(term: string): void {
+    this.myInput = term
+    this.dataSource = new MatTableDataSource<IHistory>(
+      this.historyData
+        .filter(el => el.name.toLowerCase().includes(term.trim().toLowerCase())),
+    )
+  }
+
 }

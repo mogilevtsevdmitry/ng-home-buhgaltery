@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core'
 import {MatDialog} from '@angular/material/dialog'
+import {Component, OnInit} from '@angular/core'
 import * as moment from 'moment'
 
-import {IHistory} from '../../shared/interfaces'
-import {BuhgalteryService} from '../../shared/buhgaltery.service'
-import {ModalIncomeComponent, MY_FORMATS} from '../../shared/modal-income/modal-income.component'
 import {ModalConsumptionComponent} from '../../shared/modal-consumption/modal-consumption.component'
-import {Priznak} from 'src/app/shared/interfaces'
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core'
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter'
+import {ModalIncomeComponent, MY_FORMATS} from '../../shared/modal-income/modal-income.component'
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core'
+import {BuhgalteryService} from '../../shared/buhgaltery.service'
+import {Priznak} from 'src/app/shared/interfaces'
+import {IHistory} from '../../shared/interfaces'
 import {FormControl} from '@angular/forms'
 
 
@@ -39,7 +39,6 @@ export class IndexComponent implements OnInit {
   isShowFilter: boolean = false
   matStartDate = new FormControl(moment().startOf('month'))
   matEndDate = new FormControl(moment().endOf('month'))
-  counter: number = 0
 
   constructor(
     private dialog: MatDialog,

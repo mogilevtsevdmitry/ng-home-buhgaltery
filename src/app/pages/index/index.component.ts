@@ -40,7 +40,8 @@ export class IndexComponent implements OnInit {
   isShowFilter: boolean = false
   matStartDate = new FormControl(moment().startOf('month'))
   matEndDate = new FormControl(moment().endOf('month'))
-  pieChartData: { title: string, value: number }[] = []
+  labelsChart: string[] = []
+  dataChart: number[] = []
 
 
   constructor(
@@ -98,7 +99,7 @@ export class IndexComponent implements OnInit {
         },
       )
       .reduce((a, b) => a + b, 0) : 0
-    this.pieChartData = this._getDataToChart()
+    this._getDataToChart()
     this.isLoading = false
   }
 
@@ -143,11 +144,11 @@ export class IndexComponent implements OnInit {
     }
   }
 
-  private _getDataToChart(): { title: string; value: number }[] {
+  private _getDataToChart(): void {
     const titles = this.historyData?.map(el => el.category.category1).filter(unique) || []
     const result: { title: string; value: number }[] = []
     if (titles.length === 0) {
-      return []
+      return
     }
     titles.forEach(title => {
       const dt: { title: string, value: number } = {
@@ -161,7 +162,9 @@ export class IndexComponent implements OnInit {
       }
       result.push(dt)
     })
-    return result
+
+    this.labelsChart = result?.map(d => d.title) as string[]
+    this.dataChart = result?.map(d => Math.round(d.value)) as number[]
   }
 
 }

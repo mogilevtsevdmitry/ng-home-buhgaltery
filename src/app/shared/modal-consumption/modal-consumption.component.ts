@@ -1,16 +1,17 @@
-import {Component, Inject, OnInit} from '@angular/core'
-import {FormControl, FormGroup, Validators} from '@angular/forms'
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog'
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter'
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core'
-import {Observable} from 'rxjs'
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog'
+import {FormControl, FormGroup, Validators} from '@angular/forms'
+import {Component, Inject, OnInit} from '@angular/core'
 import {map, startWith} from 'rxjs/operators'
+import {Observable} from 'rxjs'
+import * as moment from 'moment'
 
-import {ICategory, IHistory, Priznak, QntyOrWeight} from '../interfaces'
 import {ModalAddCategoryComponent} from '../modal-add-category/modal-add-category.component'
+import {ICategory, IHistory, Priznak, QntyOrWeight} from '../interfaces'
 import {BuhgalteryService} from '../buhgaltery.service'
-import {users} from '../data'
 import {unique} from '../Util'
+import {users} from '../data'
 
 
 export const MY_FORMATS = {
@@ -147,6 +148,11 @@ export class ModalConsumptionComponent implements OnInit {
 
   onSubmit() {
     const values = this.form.value
+    const dt = moment(values.date)
+    dt
+      .add(moment().hours(), 'hours')
+      .add(moment().minutes(), 'minutes')
+      .add(moment().seconds(), 'seconds')
     const newHistoryRow: IHistory = {
       id: this.dataDialog[1]?.id,
       name: values.name,
@@ -160,7 +166,7 @@ export class ModalConsumptionComponent implements OnInit {
       },
       price: -values.price,
       createdBy: users[0],
-      date: new Date(values.date),
+      date: new Date(dt.format()),
       qntyOrWeight: values.qntyOrWeight,
       qntyOrWeightNum: values.qntyOrWeightNum,
     }

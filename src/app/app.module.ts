@@ -1,17 +1,17 @@
-import {CommonModule, registerLocaleData} from '@angular/common'
-import {NgModule} from '@angular/core'
-import {BrowserModule} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import {AngularFireModule} from '@angular/fire'
+import {CommonModule, registerLocaleData} from '@angular/common'
 import {AngularFireDatabaseModule} from '@angular/fire/database'
 import {AngularFirestoreModule} from '@angular/fire/firestore'
+import {BrowserModule} from '@angular/platform-browser'
+import {AngularFireModule} from '@angular/fire'
 import ru from '@angular/common/locales/ru'
+import {NgModule} from '@angular/core'
 
-import {AppComponent} from './app.component'
+import {environment} from '../environments/environment'
 import {AppRoutingModule} from './app-routing.module'
 import {SharedModule} from './shared/shared.module'
 import {PagesModule} from './pages/pages.module'
-import {environment} from '../environments/environment'
+import {AppComponent} from './app.component'
 
 registerLocaleData(ru, 'ru')
 

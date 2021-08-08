@@ -2,6 +2,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {CommonModule, registerLocaleData} from '@angular/common'
 import {AngularFireDatabaseModule} from '@angular/fire/database'
 import {AngularFirestoreModule} from '@angular/fire/firestore'
+import {ServiceWorkerModule} from '@angular/service-worker'
 import {BrowserModule} from '@angular/platform-browser'
 import {AngularFireModule} from '@angular/fire'
 import ru from '@angular/common/locales/ru'
@@ -29,6 +30,12 @@ registerLocaleData(ru, 'ru')
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

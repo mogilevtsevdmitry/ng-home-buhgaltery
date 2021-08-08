@@ -1,15 +1,16 @@
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter'
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core'
 import {MatDialog} from '@angular/material/dialog'
 import {Component, OnInit} from '@angular/core'
+import {FormControl} from '@angular/forms'
 import * as moment from 'moment'
 
 import {ModalConsumptionComponent} from '../../shared/modal-consumption/modal-consumption.component'
-import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter'
 import {ModalIncomeComponent, MY_FORMATS} from '../../shared/modal-income/modal-income.component'
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core'
 import {BuhgalteryService} from '../../shared/buhgaltery.service'
 import {Priznak} from 'src/app/shared/interfaces'
 import {IHistory} from '../../shared/interfaces'
-import {FormControl} from '@angular/forms'
+import {unique} from '../../shared/Util'
 
 
 @Component({
@@ -29,16 +30,18 @@ import {FormControl} from '@angular/forms'
 export class IndexComponent implements OnInit {
 
   private historyData: IHistory[] | undefined
+  private startOfMonth = moment().startOf('month')
+  private endOfMonth = moment().endOf('month')
   titleAddCategory: string = ''
   isLoading: boolean = false
   incomeValue: number = 0
   consumptionValue: number = 0
   monthName: string = moment(new Date(), 'MM.YYYY').locale('ru').format('MMMM')
-  private startOfMonth = moment().startOf('month')
-  private endOfMonth = moment().endOf('month')
   isShowFilter: boolean = false
   matStartDate = new FormControl(moment().startOf('month'))
   matEndDate = new FormControl(moment().endOf('month'))
+  pieChartData: { title: string, value: number }[] = []
+
 
   constructor(
     private dialog: MatDialog,
@@ -95,6 +98,7 @@ export class IndexComponent implements OnInit {
         },
       )
       .reduce((a, b) => a + b, 0) : 0
+    this.pieChartData = this._getDataToChart()
     this.isLoading = false
   }
 
@@ -138,4 +142,26 @@ export class IndexComponent implements OnInit {
       )
     }
   }
+
+  private _getDataToChart(): { title: string; value: number }[] {
+    const titles = this.historyData?.map(el => el.category.category1).filter(unique) || []
+    const result: { title: string; value: number }[] = []
+    if (titles.length === 0) {
+      return []
+    }
+    titles.forEach(title => {
+      const dt: { title: string, value: number } = {
+        title,
+        value: this.historyData ? this.historyData.filter(el => el.category.category1 === title).map(hh => {
+          return hh.qntyOrWeight === 'qnty'
+            ? Number(hh.qntyOrWeightNum) * Number(hh.price)
+            : Number(hh.qntyOrWeightNum) / 1000 * Number(hh.price)
+        })
+          .reduce((a, b) => a + b, 0) : 0,
+      }
+      result.push(dt)
+    })
+    return result
+  }
+
 }

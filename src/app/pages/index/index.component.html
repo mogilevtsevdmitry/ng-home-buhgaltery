@@ -82,4 +82,12 @@
     <!--      ></app-analitic-card>-->
     <!--    </div>-->
   </div>
+  <div class="row">
+    <h1>Dashboard</h1>
+    <div class="col-sm-6">
+      <app-pie-chart *ngIf="!isLoading" [data]="pieChartData"></app-pie-chart>
+    </div>
+    <div class="col-sm-6"></div>
+  </div>
 </div>
+

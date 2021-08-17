@@ -42,7 +42,7 @@ export class IndexComponent implements OnInit {
   matEndDate = new FormControl(moment().endOf('month'))
   labelsChart: string[] = []
   dataChart: number[] = []
-
+  chartDohod: boolean = false
 
   constructor(
     private dialog: MatDialog,
@@ -144,27 +144,44 @@ export class IndexComponent implements OnInit {
     }
   }
 
-  private _getDataToChart(): void {
-    const titles = this.historyData?.map(el => el.category.category1).filter(unique) || []
+  private _getDataToChart(val: boolean = false): void {
+    const titles = this.historyData ? this.historyData
+      .filter(h => h.category.priznak === (val ? Priznak.income : Priznak.rashod))
+      .map(el => el.category.category1)
+      .filter(unique) : []
     const result: { title: string; value: number }[] = []
     if (titles.length === 0) {
       return
     }
     titles.forEach(title => {
-      const dt: { title: string, value: number } = {
-        title,
-        value: this.historyData ? this.historyData.filter(el => el.category.category1 === title).map(hh => {
-          return hh.qntyOrWeight === 'qnty'
-            ? Number(hh.qntyOrWeightNum) * Number(hh.price)
-            : Number(hh.qntyOrWeightNum) / 1000 * Number(hh.price)
-        })
-          .reduce((a, b) => a + b, 0) : 0,
+      if (!val) {
+        const dt: { title: string, value: number } = {
+          title,
+          value: this.historyData ? this.historyData.filter(el => el.category.category1 === title).map(hh => {
+            return hh.qntyOrWeight === 'qnty'
+              ? Number(hh.qntyOrWeightNum) * Number(hh.price)
+              : Number(hh.qntyOrWeightNum) / 1000 * Number(hh.price)
+          })
+            .reduce((a, b) => a + b, 0) : 0,
+        }
+        result.push(dt)
+      } else {
+        const dt: { title: string, value: number } = {
+          title,
+          value: this.historyData ? this.historyData.filter(el => el.category.category1 === title).map(hh => {
+            return Number(hh.price)
+          })
+            .reduce((a, b) => a + b, 0) : 0,
+        }
+        result.push(dt)
       }
-      result.push(dt)
     })
-
     this.labelsChart = result?.map(d => d.title) as string[]
     this.dataChart = result?.map(d => Math.round(d.value)) as number[]
   }
 
+  updateChart(value: boolean) {
+    this.chartDohod = value
+    this._getDataToChart(value)
+  }
 }

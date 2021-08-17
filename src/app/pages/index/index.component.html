@@ -74,24 +74,32 @@
         arrowIcon="bi-cash"
       ></app-analitic-card>
     </div>
-    <!--    <div class="col-md-3 col-sm-6 mb-2">-->
-    <!--      <app-analitic-card-->
-    <!--        footerTitle="Наибольший расход"-->
-    <!--        arrowClass="text-primary"-->
-    <!--        arrowIcon="bi-pie-chart"-->
-    <!--      ></app-analitic-card>-->
-    <!--    </div>-->
   </div>
   <div class="row">
-    <h1>Dashboard</h1>
+
     <div class="col-sm-6">
+      <h1>Dashboard</h1>
+    </div>
+    <div class="col-sm-6">
+      <button
+        class="mx-1 btn btn-sm {{chartDohod ? 'btn-success' : 'btn-outline-success'}}"
+        (click)="updateChart(true)"
+      >Доходы
+      </button>
+      <button
+        class="mx-1 btn btn-sm {{chartDohod ? 'btn-outline-danger' : 'btn-danger'}}"
+        (click)="updateChart(false)"
+      >Расходы
+      </button>
+    </div>
+
+    <div class="col-sm-12">
       <app-pie-chart
         *ngIf="!isLoading"
         [data]="dataChart"
         [labels]="labelsChart"
       ></app-pie-chart>
     </div>
-    <div class="col-sm-6"></div>
   </div>
 </div>
 

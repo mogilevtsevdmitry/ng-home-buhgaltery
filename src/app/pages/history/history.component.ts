@@ -167,8 +167,9 @@ export class HistoryComponent implements OnInit {
     const arr3: IHistory[] = this.historyData.filter(el => el.category.category2?.toLowerCase().includes(value.trim().toLowerCase()))
     const arr4: IHistory[] = this.historyData.filter(el => el.category.category3?.toLowerCase().includes(value.trim().toLowerCase()))
     const arr5: IHistory[] = this.historyData.filter(el => el.category.category4?.toLowerCase().includes(value.trim().toLowerCase()))
+    const arr6: IHistory[] = this.historyData.filter(el => el.category.priznak?.toLowerCase().includes(value.trim().toLowerCase()))
 
-    const arrArrays: [IHistory[], IHistory[], IHistory[], IHistory[], IHistory[]] = [arr1, arr2, arr3, arr4, arr5]
+    const arrArrays: [IHistory[], IHistory[], IHistory[], IHistory[], IHistory[], IHistory[]] = [arr1, arr2, arr3, arr4, arr5, arr6]
     let longestArr: IHistory[] = arrArrays[0]
     let longest: number = 0
 

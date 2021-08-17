@@ -55,13 +55,13 @@
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата</th>
       <td mat-cell *matCellDef="let row">{{ row.date | secondsToDate | date: 'mediumDate': '': 'ru' }}</td>
-      <td mat-footer-cell *matFooterCellDef>Итого</td>
+      <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
     <!-- Признак Column -->
     <ng-container matColumnDef="priznak">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Признак</th>
       <td mat-cell *matCellDef="let row">{{ row.category.priznak }}</td>
-      <td mat-footer-cell *matFooterCellDef>Итого</td>
+      <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
     <ng-container matColumnDef="category1">

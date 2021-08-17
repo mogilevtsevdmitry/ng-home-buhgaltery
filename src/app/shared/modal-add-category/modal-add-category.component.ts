@@ -40,7 +40,11 @@ export class ModalAddCategoryComponent implements OnInit {
   onSubmit() {
     const newCategory: ICategory = {
       id: this.dataDialog[1]?.id,
-      ...this.form.value,
+      priznak: this.form.value.priznak,
+      category1: this.form.value.category1.trim(),
+      category2: this.form.value.category2.trim(),
+      category3: this.form.value.category3.trim(),
+      category4: this.form.value.category4.trim(),
     }
     this.dialogRef.close(newCategory)
   }

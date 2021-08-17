@@ -158,10 +158,28 @@ export class HistoryComponent implements OnInit {
 
   onChangeInput(term: string): void {
     this.myInput = term
-    this.dataSource = new MatTableDataSource<IHistory>(
-      this.historyData
-        .filter(el => el.name.toLowerCase().includes(term.trim().toLowerCase())),
-    )
+    this.dataSource = new MatTableDataSource<IHistory>(this._filter(term))
+  }
+
+  private _filter(value: string): IHistory[] {
+    const arr1: IHistory[] = this.historyData.filter(el => el.name.toLowerCase().includes(value.trim().toLowerCase()))
+    const arr2: IHistory[] = this.historyData.filter(el => el.category.category1.toLowerCase().includes(value.trim().toLowerCase()))
+    const arr3: IHistory[] = this.historyData.filter(el => el.category.category2?.toLowerCase().includes(value.trim().toLowerCase()))
+    const arr4: IHistory[] = this.historyData.filter(el => el.category.category3?.toLowerCase().includes(value.trim().toLowerCase()))
+    const arr5: IHistory[] = this.historyData.filter(el => el.category.category4?.toLowerCase().includes(value.trim().toLowerCase()))
+
+    const arrArrays: [IHistory[], IHistory[], IHistory[], IHistory[], IHistory[]] = [arr1, arr2, arr3, arr4, arr5]
+    let longestArr: IHistory[] = arrArrays[0]
+    let longest: number = 0
+
+    arrArrays.forEach(arr => {
+      if (arr.length > longest) {
+        longestArr = arr
+        longest = arr.length
+      }
+    })
+
+    return longestArr
   }
 
 }

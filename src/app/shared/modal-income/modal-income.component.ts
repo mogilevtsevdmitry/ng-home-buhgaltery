@@ -178,8 +178,14 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   onAddCategory() {
+    const category: ICategory = {
+      priznak: Priznak.income,
+      category1: this.form.value?.category1 || '',
+      category2: this.form.value?.category2 || '',
+      category3: this.form.value?.category3 || '',
+    }
     const dialogRef = this.dialog.open(ModalAddCategoryComponent, {
-      data: [Priznak.income],
+      data: [Priznak.income, category],
       maxWidth: '480px',
       minWidth: '320px',
     })

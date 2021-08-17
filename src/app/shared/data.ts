@@ -1,6 +1,6 @@
 import {IUser} from './interfaces'
 
 export const users: IUser[] = [
-  {id: Math.random(), name: 'Маша'},
-  {id: Math.random(), name: 'Дима'},
+  {id: 1, name: 'Маша'},
+  {id: 2, name: 'Дима'},
 ]

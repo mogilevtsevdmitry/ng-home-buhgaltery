@@ -18,6 +18,10 @@ export class DaoService {
   }
 
   isAuthenticated(): Observable<boolean> {
+    const auth = JSON.parse(<string>localStorage.getItem('isAuth'))
+    if (auth) {
+      return auth
+    }
     this.authService.authState.subscribe(res => {
       this.isAuth.next(!!res)
     })

@@ -16,9 +16,10 @@ import {HistoryComponent} from './history/history.component'
 import {PagesRoutingModule} from './pages-routing.module'
 import {IndexComponent} from './index/index.component'
 import {SharedModule} from '../shared/shared.module'
+import {LoginComponent} from './login/login.component'
 
 @NgModule({
-  declarations: [IndexComponent, HistoryComponent, CategoriesComponent],
+  declarations: [IndexComponent, HistoryComponent, CategoriesComponent, LoginComponent],
   imports: [
     CommonModule,
     PagesRoutingModule,

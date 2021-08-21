@@ -4,12 +4,14 @@
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Меню</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item [routerLink]="['/']" routerLinkActive="router-link-active">Главная</a>
+    <mat-nav-list *ngIf="isAuth | async" style="height: 80vh">
+      <a mat-list-item [routerLink]="['index']" routerLinkActive="router-link-active">Главная</a>
       <a mat-list-item [routerLink]="['categories']" routerLinkActive="router-link-active">Категории</a>
       <a mat-list-item [routerLink]="['history']" routerLinkActive="router-link-active">История</a>
-      <!-- <a mat-list-item class="mt-auto" href="#">Настройки</a> -->
     </mat-nav-list>
+    <div class="d-flex align-items-center w-100" *ngIf="isAuth | async">
+      <button class="mx-3 btn btn-sm btn-danger" (click)="logout()">Выйти</button>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">

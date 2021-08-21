@@ -33,6 +33,8 @@ import {TotalByRowPipe} from './pipes/total-by-row.pipe'
 import {TotalCostPipe} from './pipes/total-cost.pipe'
 import {UniquePipe} from './pipes/unique.pipe'
 import {DaoService} from './dao.service'
+import {FormLoginComponent} from './form-login/form-login.component'
+import {MatCardModule} from '@angular/material/card'
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import {DaoService} from './dao.service'
     TotalCostPipe,
     SecondsToDatePipe,
     PieChartComponent,
+    FormLoginComponent,
   ],
   imports: [
     CommonModule,
@@ -71,6 +74,7 @@ import {DaoService} from './dao.service'
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     ChartsModule,
+    MatCardModule,
   ],
   exports: [
     NavbarComponent,
@@ -82,6 +86,7 @@ import {DaoService} from './dao.service'
     TotalCostPipe,
     SecondsToDatePipe,
     PieChartComponent,
+    FormLoginComponent,
   ],
   providers: [DaoService],
 })

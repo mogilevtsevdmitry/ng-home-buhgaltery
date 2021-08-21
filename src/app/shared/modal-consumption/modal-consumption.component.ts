@@ -11,7 +11,6 @@ import {ModalAddCategoryComponent} from '../modal-add-category/modal-add-categor
 import {ICategory, IHistory, Priznak, QntyOrWeight} from '../interfaces'
 import {BuhgalteryService} from '../buhgaltery.service'
 import {unique} from '../Util'
-import {users} from '../data'
 
 
 export const MY_FORMATS = {
@@ -165,7 +164,6 @@ export class ModalConsumptionComponent implements OnInit {
         category4: values.category4,
       },
       price: -values.price,
-      createdBy: users[0],
       date: new Date(dt.format()),
       qntyOrWeight: values.qntyOrWeight,
       qntyOrWeightNum: values.qntyOrWeightNum,

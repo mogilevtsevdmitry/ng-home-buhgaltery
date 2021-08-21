@@ -9,7 +9,6 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import {ModalAddCategoryComponent} from '../modal-add-category/modal-add-category.component'
 import {ICategory, IHistory, Priznak, QntyOrWeight} from '../interfaces'
 import {BuhgalteryService} from '../buhgaltery.service'
-import {users} from '../data'
 import {unique} from '../Util'
 
 export const MY_FORMATS = {
@@ -160,7 +159,6 @@ export class ModalIncomeComponent implements OnInit {
         category4: values.category4,
       },
       price: values.price,
-      createdBy: users[0],
       date: new Date(values.date),
     }
     this.dialogRef.close(newHistoryRow)
